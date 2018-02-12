@@ -6,10 +6,7 @@ import os
 import glob
 import errno
 import argparse
-from utils import ngsutils
-from utils import osutils
-from utils import pdutils
-from utils import futils
+from utils import futils, ngsutils, osutils, pdutils
 from concurrent.futures import ThreadPoolExecutor, wait
 
 

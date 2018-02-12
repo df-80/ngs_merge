@@ -6,8 +6,7 @@ import os
 import errno
 import pathlib
 import pandas as pd
-from utils import pdutils
-from utils import osutils
+from utils import osutils, pdutils
 
 chromo_list = [
     'chr1', 'chr2', 'chr3', 'chr4', 'chr5', 'chr6', 'chr7',
