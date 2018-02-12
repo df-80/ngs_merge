@@ -36,7 +36,10 @@ def setup_args():
 
 
 def load_and_merge(args, files, chr_dir=None):
-    data_frames = pdutils.load_files_in_dataframe(files)
+    data_frames = pdutils.load_files_in_dataframes(files)
+    # if data_frames list is None, an IO error must have occured on one of the files
+    if (data_frames is None):
+        return errno.EIO
 
     # Get join type to use when joining files. Default is 'outer' join.
     join_type = 'outer' if args.join_type is None else args.join_type
@@ -134,7 +137,7 @@ def main():
     elif result == errno.ENOSPC:
         print('Error: No space left on device.')
     else:
-        print('Error: errno {0} occured.'.format(result))
+        print('Error: {0} occured.'.format(os.strerror(result)))
 
 if __name__ == '__main__':
     main()

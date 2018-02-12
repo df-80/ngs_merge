@@ -10,28 +10,30 @@ from functools import reduce
 from utils import osutils
 
 
-def load_files_in_dataframe(files):
+def load_files_in_dataframes(files):
     data_frames = []
 
-    try:
-        for fp in files:
-            df = load_csv_in_dataframe(fp)
-            # append every df in a data_frames list
+    for fp in files:
+        df = load_csv_in_dataframe(fp)
+        if (df is None):
+            return None
+        else:
             data_frames.append(df)
-    except (OSError, IOError, FileNotFoundError) as e:
-        print('>>> load_files_in_dataframe: {0} <<<'.format(fp))
-        return e.errno
-    else:
-        return data_frames
+
+    return data_frames
 
 
 def load_csv_in_dataframe(fp):
-    print('Reading file ' + fp + ' - size: ' + str(osutils.format_bytes(os.path.getsize(fp))))
-    # read in the files (compressed or uncompressed) and put them into dataframes
-    if (str.lower(pathlib.Path(fp).suffix) == '.csv'):
-        return pd.read_csv(fp, sep=',')
-    elif (str.lower(pathlib.Path(fp).suffix) == '.gz'):
-        return pd.read_csv(fp, compression='gzip', sep=',')
+    try:
+        print('Reading file ' + fp + ' - size: ' + str(osutils.format_bytes(os.path.getsize(fp))))
+        # read in the files (compressed or uncompressed) and put them into dataframes
+        if (str.lower(pathlib.Path(fp).suffix) == '.csv'):
+            return pd.read_csv(fp, sep=',')
+        elif (str.lower(pathlib.Path(fp).suffix) == '.gz'):
+            return pd.read_csv(fp, compression='gzip', sep=',')
+    except (OSError, IOError, FileNotFoundError) as e:
+        print('>>> load_csv_in_dataframe: {0} - error: {1} <<<'.format(fp, os.strerror(e.errno)))
+        return None
 
 
 def save_file_to_disk(merged_file, output_filename):
@@ -43,7 +45,7 @@ def save_file_to_disk(merged_file, output_filename):
             print('Writing file to output.csv')
             merged_file.to_csv('output.csv', index=False)
     except (OSError, IOError) as e:
-        print('>>> save_file_to_disk: {0} <<<'.format(output_file))
+        print('>>> save_file_to_disk: {0} - error: {1} <<<'.format(output_file, os.strerror(e.errno)))
         return e.errno
     else:
         return 0

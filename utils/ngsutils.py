@@ -26,14 +26,14 @@ def create_chromo_dirs(dirs):
     for dir in dirs:
         result = osutils.create_dir(dir)
         if result != 0:
-            print('>>> create_chromo_dirs error: {0} <<<'.format(dir))
+            print('>>> create_chromo_dirs: {0} - error: {1} <<<'.format(dir, os.strerror(result)))
             return result
 
     # create directories where files will be split according to chromosone
     for chr_dir in chromo_dirs:
         result = osutils.create_dir(dirs[0] + os.sep + chr_dir)
         if result != 0:
-            print('>>> create_chromo_dirs error: {0} <<<'.format(chr_dir))
+            print('>>> create_chromo_dirs: {0} - error: {1} <<<'.format(chr_dir, os.strerror(result)))
             return result
 
     return 0
@@ -43,9 +43,10 @@ def delete_chromo_dirs(dirs):
     for dir_name in dirs:
         result = osutils.delete_dir(dir_name)
         if result != 0 and result != errno.ENOENT:
-            print('>>> delete_chromo_dirs error: {0} <<<'.format(dir_name))
+            print('>>> delete_chromo_dirs: {0} - error: {1} <<<'.format(dir_name, os.strerror(result)))
             return result
 
+    print('{0} directories deleted'.format(dirs))
     return 0
 
 
@@ -59,6 +60,7 @@ def split_files(files):
                 csv_chr.to_csv('split' + os.sep + chr_dir + os.sep + os.path.splitext(fp)[0] +
                                '_' + chr_dir + '.csv', index=False)
     except (OSError, IOError) as e:
+        print('>>> split_files: {0} - error: {1} <<<'.format(files, os.strerror(result)))
         return e.errno
     else:
         return 0

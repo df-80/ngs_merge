@@ -49,7 +49,7 @@ def create_dir(dir_name):
     try:
         os.makedirs(dir_name)
     except (OSError, IOError) as e:
-        print('>>> create_dir: {0} <<<'.format(dir_name))
+        print('>>> create_dir: {0} - error: {1} <<<'.format(dir_name, os.strerror(e.errno)))
         return e.errno
     else:
         return 0
@@ -59,7 +59,7 @@ def delete_dir(dir_name):
     try:
         shutil.rmtree(dir_name)
     except (OSError, IOError) as e:
-        print('>>> delete_dir: {0} <<<'.format(dir_name))
+        print('>>> delete_dir: {0} - error: {1} <<<'.format(dir_name, os.strerror(e.errno)))
         return e.errno
     else:
         return 0
