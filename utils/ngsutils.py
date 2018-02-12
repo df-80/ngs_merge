@@ -90,7 +90,7 @@ def save_chromos_in_one_file(output_filename):
         return 0
 
 
-def merge_ngs_files(data_frames, join_columns, join_type='outer', chr_name_list=[], sort_columns=[], sort_asc=True):
+def merge_ngs_files(data_frames, join_columns, join_type, chr_name_list=[], sort_columns=[], sort_asc=True):
     df_merged = pdutils.merge_files(data_frames, join_columns, join_type)
     # check for chr in list of sort columns
     for chr_column in sort_columns:
