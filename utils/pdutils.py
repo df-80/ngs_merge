@@ -31,7 +31,7 @@ def load_csv_in_dataframe(fp):
             return pd.read_csv(fp, sep=',')
         elif (str.lower(pathlib.Path(fp).suffix) == '.gz'):
             return pd.read_csv(fp, compression='gzip', sep=',')
-    except (OSError, IOError, FileNotFoundError) as e:
+    except (OSError, IOError) as e:
         print('>>> load_csv_in_dataframe: {0} - error: {1} <<<'.format(fp, os.strerror(e.errno)))
         return None
 
