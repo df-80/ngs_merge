@@ -18,15 +18,18 @@ def setup_args():
     parser.add_argument(
         '-w', action='store', dest='file_wildcard', help='Input file name wildcard: e.g. *.csv or *.csv.gz')
     parser.add_argument(
-        '-o', action='store', dest='out_filename', help='Output file name: default filename \'output.csv\'')
+        '-o', action='store', dest='out_filename', default='output.csv', 
+        help='Output file name: default filename \'output.csv\'')
     parser.add_argument(
         '-c', action='append', dest='join_columns', default=[], help='Columns to join data', required=True)
     parser.add_argument(
-        '-j', action='store', dest='join_type', help='Join data: outer, inner, left or right. Default join type is \'outer\' join')
+        '-j', action='store', dest='join_type', default='outer', 
+        help='Join data: outer, inner, left or right. Default join type is \'outer\' join')
     parser.add_argument(
-        '-s', action='append', dest='sort_columns', help='Sort data by column')
+        '-s', action='append', dest='sort_columns', default=[], help='Sort data by column')
     parser.add_argument(
-        '-b', action='store_true', dest='split_chromo', default=False, help='Split according to chromosones and save files')
+        '-b', action='store_true', dest='split_chromo', default=False, 
+        help='Split according to chromosones and save files')
     parser.add_argument(
         '-e', action='store_true', dest='erase_dirs', default=False, help='Erase all temporary directories created')
 
@@ -41,15 +44,11 @@ def load_and_merge(args, files, chr_dir=None):
     if (data_frames is None):
         return errno.EIO
 
-    # Get join type to use when joining files. Default is 'outer' join.
-    join_type = 'outer' if args.join_type is None else args.join_type
-    # Get which columns to use for sorting data. Default is an empty list.
-    sort_columns = [] if args.sort_columns is None else args.sort_columns
     # Save resulting merged file to disk.
     filename = args.out_filename if chr_dir is None else '.' + os.sep + 'merged' + os.sep + chr_dir + '.csv'
 
     merged_file = ngsutils.merge_ngs_files(
-        data_frames, args.join_columns, join_type, ['chr', 'Chr', 'CHR'], sort_columns)
+        data_frames, args.join_columns, args.join_type, ['chr', 'Chr', 'CHR'], args.sort_columns)
 
     return pdutils.save_file_to_disk(merged_file, filename)
 

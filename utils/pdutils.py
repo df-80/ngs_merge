@@ -36,14 +36,10 @@ def load_csv_in_dataframe(fp):
         return None
 
 
-def save_file_to_disk(merged_file, output_filename):
+def save_file_to_disk(merged_file, output_filename='output.csv'):
     try:
-        if (output_filename):
-            print('Writing file to ' + output_filename)
-            merged_file.to_csv(output_filename, index=False)
-        else:
-            print('Writing file to output.csv')
-            merged_file.to_csv('output.csv', index=False)
+        print('Writing merged result to ' + output_filename)
+        merged_file.to_csv(output_filename, index=False)
     except (OSError, IOError) as e:
         print('>>> save_file_to_disk: {0} - error: {1} <<<'.format(output_file, os.strerror(e.errno)))
         return e.errno

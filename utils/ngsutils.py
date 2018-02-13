@@ -46,7 +46,6 @@ def delete_chromo_dirs(dirs):
             print('>>> delete_chromo_dirs: {0} - error: {1} <<<'.format(dir_name, os.strerror(result)))
             return result
 
-    print('{0} directories deleted'.format(dirs))
     return 0
 
 
@@ -66,13 +65,9 @@ def split_files(files):
         return 0
 
 
-def save_chromos_in_one_file(output_filename):
-    if (output_filename):
-        print('Writing file to ' + output_filename)
-        out_fp = output_filename
-    else:
-        print('Writing file to output.csv')
-        out_fp = 'output.csv'
+def save_chromos_in_one_file(output_filename='output.csv'):
+    print('Writing merged result to ' + output_filename)
+    out_fp = output_filename
 
     header_saved = False
     try:

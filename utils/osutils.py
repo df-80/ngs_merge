@@ -58,6 +58,7 @@ def create_dir(dir_name):
 def delete_dir(dir_name):
     try:
         shutil.rmtree(dir_name)
+        print('\'{0}\' directory deleted'.format(dir_name))
     except (OSError, IOError) as e:
         print('>>> delete_dir: {0} - error: {1} <<<'.format(dir_name, os.strerror(e.errno)))
         return e.errno
