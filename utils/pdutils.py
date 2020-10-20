@@ -3,7 +3,6 @@
 """pdutils.py: Pandas utility functions."""
 
 import os
-import errno
 import pathlib
 import pandas as pd
 from functools import reduce
@@ -28,9 +27,9 @@ def load_csv_in_dataframe(fp):
         print('Reading file ' + fp + ' - size: ' + str(osutils.format_bytes(os.path.getsize(fp))))
         # read in the files (compressed or uncompressed) and put them into dataframes
         if (str.lower(pathlib.Path(fp).suffix) == '.csv'):
-            return pd.read_csv(fp, sep=',')
+            return pd.read_csv(fp, sep=',', low_memory=False)
         elif (str.lower(pathlib.Path(fp).suffix) == '.gz'):
-            return pd.read_csv(fp, compression='gzip', sep=',')
+            return pd.read_csv(fp, compression='gzip', sep=',', low_memory=False)
     except (OSError, IOError) as e:
         print('>>> load_csv_in_dataframe: {0} - error: {1} <<<'.format(fp, os.strerror(e.errno)))
         return None
@@ -41,7 +40,7 @@ def save_file_to_disk(merged_file, output_filename='output.csv'):
         print('Writing merged result to ' + output_filename)
         merged_file.to_csv(output_filename, index=False)
     except (OSError, IOError) as e:
-        print('>>> save_file_to_disk: {0} - error: {1} <<<'.format(output_file, os.strerror(e.errno)))
+        print('>>> save_file_to_disk: {0} - error: {1} <<<'.format(output_filename, os.strerror(e.errno)))
         return e.errno
     else:
         return 0
