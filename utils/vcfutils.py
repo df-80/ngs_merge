@@ -11,7 +11,7 @@ from utils import osutils
 def read_vcf(fp, all_columns):
     try:
         print('Reading file ' + fp + ' - size: ' + str(osutils.format_bytes(os.path.getsize(fp))))
-        if (all_columns):
+        if all_columns:
             df = allel.vcf_to_dataframe(fp, fields='*', alt_number=1)
         else:
             df = allel.vcf_to_dataframe(fp)

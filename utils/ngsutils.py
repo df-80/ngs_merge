@@ -4,7 +4,6 @@
 
 import os
 import errno
-import pathlib
 import pandas as pd
 from utils import osutils, pdutils
 

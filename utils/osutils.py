@@ -25,7 +25,7 @@ def get_total_filesize(files):
 
 
 def format_bytes(size_in_bytes):
-    '''Return the given bytes as a human readable string'''
+    """Return the given bytes as a human-readable string"""
     B = size_in_bytes
     KB = 2 ** 10  # 1,024
     MB = KB ** 2  # 1,048,576

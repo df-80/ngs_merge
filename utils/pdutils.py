@@ -14,7 +14,7 @@ def load_files_in_dataframes(files):
 
     for fp in files:
         df = load_csv_in_dataframe(fp)
-        if (df is None):
+        if df is None:
             return None
         else:
             data_frames.append(df)
@@ -26,9 +26,9 @@ def load_csv_in_dataframe(fp):
     try:
         print('Reading file ' + fp + ' - size: ' + str(osutils.format_bytes(os.path.getsize(fp))))
         # read in the files (compressed or uncompressed) and put them into dataframes
-        if (str.lower(pathlib.Path(fp).suffix) == '.csv'):
+        if str.lower(pathlib.Path(fp).suffix) == '.csv':
             return pd.read_csv(fp, sep=',', low_memory=False)
-        elif (str.lower(pathlib.Path(fp).suffix) == '.gz'):
+        elif str.lower(pathlib.Path(fp).suffix) == '.gz':
             return pd.read_csv(fp, compression='gzip', sep=',', low_memory=False)
     except (OSError, IOError) as e:
         print('>>> load_csv_in_dataframe: {0} - error: {1} <<<'.format(fp, os.strerror(e.errno)))

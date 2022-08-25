@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-"""csv2vcfmerge.py: Merge vcf and csv files into a single file for easy post processing."""
+"""csv2vcfmerge.py: Merge vcf and csv files into a single file for easy post-processing."""
 
 import os
 import glob
@@ -31,15 +31,10 @@ def setup_args():
 
 
 def load_and_merge(args):
-    data_frames = []
-
-    # read vcf file and append to data_frames list
-    data_frames.append(vcfutils.read_vcf(args.vcf_file, args.all_vcf_columns))
-    # read csv file and append to data_frames list
-    data_frames.append(pdutils.load_csv_in_dataframe(args.csv_file))
+    data_frames = [vcfutils.read_vcf(args.vcf_file, args.all_vcf_columns), pdutils.load_csv_in_dataframe(args.csv_file)]
 
     # if both were read successfully, begin merging process
-    if (data_frames[0] is not None and data_frames[1] is not None):
+    if data_frames[0] is not None and data_frames[1] is not None:
         merged_file = ngsutils.merge_ngs_files(
             data_frames, args.join_columns, args.join_type, ['chr', 'Chr', 'CHR'], args.sort_columns)
         return pdutils.save_file_to_disk(merged_file, args.out_filename)
@@ -52,7 +47,7 @@ def main():
     args = setup_args()
     print('Merging ' + args.vcf_file + " and " + args.csv_file)
 
-    if (load_and_merge(args) == 0):
+    if load_and_merge(args) == 0:
         print('Merging ready!!')
     else:
         print('Program error')

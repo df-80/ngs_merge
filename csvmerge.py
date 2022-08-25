@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-"""csvmerge.py: Merge multiple csv files in a directory into a single file for easy post processing."""
+"""csvmerge.py: Merge multiple csv files in a directory into a single file for easy post-processing."""
 
 import os
 import glob
@@ -29,7 +29,7 @@ def setup_args():
         '-s', action='append', dest='sort_columns', default=[], help='Sort data by column')
     parser.add_argument(
         '-b', action='store_true', dest='split_chromo', default=False, 
-        help='Split according to chromosones and save files')
+        help='Split according to chromosomes and save files')
     parser.add_argument(
         '-e', action='store_true', dest='erase_dirs', default=False, help='Erase all temporary directories created')
 
@@ -41,7 +41,7 @@ def setup_args():
 def load_and_merge(args, files, chr_dir=None):
     data_frames = pdutils.load_files_in_dataframes(files)
     # if data_frames list is None, an IO error must have occured on one of the files
-    if (data_frames is None):
+    if data_frames is None:
         return errno.EIO
 
     # Save resulting merged file to disk.
@@ -63,11 +63,11 @@ def process_files_on_disk(args, files, cpu_count):
     if result != 0 and result != errno.EEXIST:
         print('Error: Fatal error while creating directories')
         return result
-    # split files according to chromosone
+    # split files according to chromosome
     result = ngsutils.split_files(files)
     if result != 0:
         return result
-    # create threadpoolexecutor with cpu count
+    # create ThreadPoolExecutor with cpu count
     pool = ThreadPoolExecutor(cpu_count)
     futures = []
     # loop into each split/chr* directory
@@ -87,7 +87,7 @@ def main():
     print('Changing directory to ' + args.directory)
 
     # Some input validation
-    if ((args.erase_dirs is True) and (args.split_chromo is True)):
+    if (args.erase_dirs is True) and (args.split_chromo is True):
         print('Invalid options: -b and -e options are mutually exclusive!')
         exit()
 
@@ -99,7 +99,7 @@ def main():
 
     # Read wild card argument. If absent, first try csv files then gz files.
     files = futils.get_files_to_process(args.file_wildcard)
-    if (files is None):
+    if files is None:
         print('No suitable files found! Exiting program')
         exit()
 
@@ -123,7 +123,7 @@ def main():
     files.sort()
 
     # Decide how to handle execution, either in one chunk or split in multiple files
-    if ((files_size < mem_stats.available/3) and (args.split_chromo is False)):
+    if (files_size < mem_stats.available/3) and (args.split_chromo is False):
         result = load_and_merge(args, files)
     else:
         result = process_files_on_disk(args, files, cpu_count)
@@ -136,7 +136,8 @@ def main():
     elif result == errno.ENOSPC:
         print('Error: No space left on device.')
     else:
-        print('Error: {0} occured.'.format(os.strerror(result)))
+        print('Error: {0} occurred.'.format(os.strerror(result)))
+
 
 if __name__ == '__main__':
     main()

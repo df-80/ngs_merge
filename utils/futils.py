@@ -7,24 +7,25 @@ import glob
 
 
 def get_files_to_process(file_wildcard=None):
-    ''' Read wild card argument. If absent, first try csv files then gz files'''
+    """ Read wild card argument. If absent, first try csv files then gz files"""
     if file_wildcard:
         files = glob.glob(file_wildcard)
     else:
         files = glob.glob('*.csv')
-        if (len(files) == 0):
+        if len(files) == 0:
             files = glob.glob('*.csv.gz')
 
-    if (len(files) == 0):
+    if len(files) == 0:
         return None
     else:
         return files
 
 
 def get_csv_headers(files, filter_list=[]):
-    '''Return a list of all csv headers and intersecting headers found in files'''
+    """Return a list of all csv headers and intersecting headers found in files"""
     headers = []
     intersecting_headers = []
+    
     for fp in files:
         with open(fp, 'r') as f:
             reader = csv.reader(f)
@@ -32,7 +33,7 @@ def get_csv_headers(files, filter_list=[]):
             # concatenate lists
             headers += header
             # if intersect list is empty, concat lists otherwise take intersecting elements
-            if (len(intersecting_headers) == 0):
+            if len(intersecting_headers) == 0:
                 intersecting_headers += header
             else:
                 list(set(intersecting_headers).intersection(header))
