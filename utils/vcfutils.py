@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 """vcfutils.py: VCF utility functions."""
 
 # allel is part of scikit-allel

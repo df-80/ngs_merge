@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 """osutils.py: Generic utility multi-platform functions."""
 
 import os

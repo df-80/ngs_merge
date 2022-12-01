@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 """ngsutils.py: NGS-specific functions to read csv or vcf files."""
 
 import os
