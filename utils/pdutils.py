@@ -7,7 +7,7 @@ from functools import reduce
 from utils import osutils
 
 
-def load_files_in_dataframes(files):
+def load_files_in_dataframes(args, files):
     data_frames = []
 
     for fp in files:
@@ -15,6 +15,7 @@ def load_files_in_dataframes(files):
         if df is None:
             return None
         else:
+            df.rename(columns=lambda col: f"{str(fp).split('.')[0]}_{col}" if col not in args.join_columns else col, inplace=True)
             data_frames.append(df)
 
     return data_frames

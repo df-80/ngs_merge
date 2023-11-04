@@ -93,17 +93,19 @@ def merge_ngs_files(data_frames, join_columns, join_type, chr_name_list=[], sort
             # change Chr column type to integer for sorting
             df_merged.Chr = df_merged.Chr.apply(pd.to_numeric, errors='ignore')
             break
+
     # Sort by sort_columns
     if sort_columns:
         print('Sort columns by \'' + ', '.join(sort_columns) + '\'')
         df_merged.sort_values(by=sort_columns, ascending=sort_asc, inplace=True)
+
     # put back the chr string infront of chromosome letter
     if any(i in chr_name_list for i in sort_columns):
         df_merged.Chr = df_merged.Chr.astype(str)
         df_merged.Chr = chr_column + df_merged.Chr
+
     # move join columns at the beginning of the table
     for col, i in zip(join_columns, list(range(len(join_columns)))):
-        df_merged.insert(i, '_' + col + '_', df_merged[col])
-        df_merged.pop(col)
+        df_merged.insert(i, col, df_merged.pop(col))
 
     return df_merged

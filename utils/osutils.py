@@ -1,9 +1,8 @@
 """osutils.py: Generic utility multi-platform functions."""
 
 import os
-import glob
-import psutil
 import shutil
+import psutil
 
 
 def get_cpu_count():

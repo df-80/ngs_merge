@@ -39,7 +39,7 @@ def setup_args():
 
 
 def load_and_merge(args, files, chr_dir=None):
-    data_frames = pdutils.load_files_in_dataframes(files)
+    data_frames = pdutils.load_files_in_dataframes(args, files)
     # if data_frames list is None, an IO error must have occured on one of the files
     if data_frames is None:
         return errno.EIO
